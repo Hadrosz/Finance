@@ -1,84 +1,88 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3 } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BarChart3 } from "lucide-react";
 
 interface MarketOverviewProps {
-  theme?: 'light' | 'dark';
   height?: number;
 }
 
-export function MarketOverview({ 
-  theme = 'light',
-  height = 400 
-}: MarketOverviewProps) {
+export function MarketOverview({ height = 400 }: MarketOverviewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current || !mounted) return;
 
     // Clear any existing content
-    containerRef.current.innerHTML = '';
+    containerRef.current.innerHTML = "";
 
-    const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js';
-    script.type = 'text/javascript';
+    const script = document.createElement("script");
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js";
+    script.type = "text/javascript";
     script.async = true;
     script.innerHTML = JSON.stringify({
-      colorTheme: theme,
-      dateRange: '1D',
+      colorTheme: resolvedTheme === "dark" ? "dark" : "light",
+      dateRange: "1D",
       showChart: true,
-      locale: 'es',
-      width: '100%',
+      locale: "es",
+      width: "100%",
       height: height,
-      largeChartUrl: '',
+      largeChartUrl: "",
       isTransparent: false,
       showSymbolLogo: true,
       showFloatingTooltip: false,
-      plotLineColorGrowing: 'rgba(34, 197, 94, 1)',
-      plotLineColorFalling: 'rgba(239, 68, 68, 1)',
-      gridLineColor: 'rgba(240, 243, 250, 0)',
-      scaleFontColor: 'rgba(106, 109, 120, 1)',
-      belowLineFillColorGrowing: 'rgba(34, 197, 94, 0.12)',
-      belowLineFillColorFalling: 'rgba(239, 68, 68, 0.12)',
-      belowLineFillColorGrowingBottom: 'rgba(34, 197, 94, 0)',
-      belowLineFillColorFallingBottom: 'rgba(239, 68, 68, 0)',
-      symbolActiveColor: 'rgba(0, 0, 0, 0.12)',
+      plotLineColorGrowing: "rgba(34, 197, 94, 1)",
+      plotLineColorFalling: "rgba(239, 68, 68, 1)",
+      gridLineColor: "rgba(240, 243, 250, 0)",
+      scaleFontColor: "rgba(106, 109, 120, 1)",
+      belowLineFillColorGrowing: "rgba(34, 197, 94, 0.12)",
+      belowLineFillColorFalling: "rgba(239, 68, 68, 0.12)",
+      belowLineFillColorGrowingBottom: "rgba(34, 197, 94, 0)",
+      belowLineFillColorFallingBottom: "rgba(239, 68, 68, 0)",
+      symbolActiveColor: "rgba(0, 0, 0, 0.12)",
       tabs: [
         {
-          title: 'Criptomonedas',
+          title: "Criptomonedas",
           symbols: [
-            { s: 'BITSTAMP:BTCUSD', d: 'Bitcoin' },
-            { s: 'BITSTAMP:ETHUSD', d: 'Ethereum' },
-            { s: 'BINANCE:ADAUSDT', d: 'Cardano' },
-            { s: 'BINANCE:MATICUSDT', d: 'Polygon' },
-            { s: 'BINANCE:SOLUSDT', d: 'Solana' },
-            { s: 'BINANCE:DOTUSDT', d: 'Polkadot' }
+            { s: "BITSTAMP:BTCUSD", d: "Bitcoin" },
+            { s: "BITSTAMP:ETHUSD", d: "Ethereum" },
+            { s: "BINANCE:ADAUSDT", d: "Cardano" },
+            { s: "BINANCE:MATICUSDT", d: "Polygon" },
+            { s: "BINANCE:SOLUSDT", d: "Solana" },
+            { s: "BINANCE:DOTUSDT", d: "Polkadot" },
           ],
-          originalTitle: 'Crypto'
+          originalTitle: "Crypto",
         },
         {
-          title: 'Forex',
+          title: "Forex",
           symbols: [
-            { s: 'FX:USDCOP', d: 'USD/COP' },
-            { s: 'FX:EURUSD', d: 'EUR/USD' },
-            { s: 'FX:GBPUSD', d: 'GBP/USD' },
-            { s: 'FX:USDJPY', d: 'USD/JPY' }
+            { s: "FX:USDCOP", d: "USD/COP" },
+            { s: "FX:EURUSD", d: "EUR/USD" },
+            { s: "FX:GBPUSD", d: "GBP/USD" },
+            { s: "FX:USDJPY", d: "USD/JPY" },
           ],
-          originalTitle: 'Forex'
-        }
-      ]
+          originalTitle: "Forex",
+        },
+      ],
     });
 
     containerRef.current.appendChild(script);
 
     return () => {
       if (containerRef.current) {
-        containerRef.current.innerHTML = '';
+        containerRef.current.innerHTML = "";
       }
     };
-  }, [theme, height]);
+  }, [resolvedTheme, height, mounted]);
 
   return (
     <Card className="w-full">
@@ -89,7 +93,7 @@ export function MarketOverview({
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div 
+        <div
           ref={containerRef}
           style={{ height: `${height}px` }}
           className="w-full rounded-b-lg overflow-hidden"

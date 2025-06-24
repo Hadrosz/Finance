@@ -1,57 +1,63 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Bitcoin } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Bitcoin } from "lucide-react";
 
 interface TradingViewMiniChartProps {
   symbol?: string;
-  theme?: 'light' | 'dark';
   height?: number;
 }
 
-export function TradingViewMiniChart({ 
-  symbol = 'BITSTAMP:BTCUSD', 
-  theme = 'light',
-  height = 220 
+export function TradingViewMiniChart({
+  symbol = "BITSTAMP:BTCUSD",
+  height = 220,
 }: TradingViewMiniChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!containerRef.current || !mounted) return;
 
     // Clear any existing content
-    containerRef.current.innerHTML = '';
+    containerRef.current.innerHTML = "";
 
-    const script = document.createElement('script');
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
-    script.type = 'text/javascript';
+    const script = document.createElement("script");
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js";
+    script.type = "text/javascript";
     script.async = true;
     script.innerHTML = JSON.stringify({
       symbol: symbol,
-      width: '100%',
+      width: "100%",
       height: height,
-      locale: 'es',
-      dateRange: '1D',
-      colorTheme: theme,
-      trendLineColor: 'rgba(251, 146, 60, 1)',
-      underLineColor: 'rgba(251, 146, 60, 0.3)',
-      underLineBottomColor: 'rgba(251, 146, 60, 0)',
+      locale: "es",
+      dateRange: "1D",
+      colorTheme: resolvedTheme === "dark" ? "dark" : "light",
+      trendLineColor: "rgba(251, 146, 60, 1)",
+      underLineColor: "rgba(251, 146, 60, 0.3)",
+      underLineBottomColor: "rgba(251, 146, 60, 0)",
       isTransparent: false,
       autosize: true,
-      largeChartUrl: '',
+      largeChartUrl: "",
       chartOnly: false,
-      noTimeScale: false
+      noTimeScale: false,
     });
 
     containerRef.current.appendChild(script);
 
     return () => {
       if (containerRef.current) {
-        containerRef.current.innerHTML = '';
+        containerRef.current.innerHTML = "";
       }
     };
-  }, [symbol, theme, height]);
+  }, [symbol, resolvedTheme, height, mounted]);
 
   return (
     <Card className="w-full">
@@ -62,7 +68,7 @@ export function TradingViewMiniChart({
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div 
+        <div
           ref={containerRef}
           style={{ height: `${height}px` }}
           className="w-full rounded-b-lg overflow-hidden"

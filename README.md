@@ -1,177 +1,20 @@
-# Finance - Control Financiero Personal
+# FinanceHub - Control Financiero Personal
 
-## 📋 Descripción
+Una aplicación web completa para el control de finanzas personales construida con Next.js, TypeScript, SQLite y Tailwind CSS.
 
-**Finance** es una aplicación web completa para el control de finanzas personales desarrollada con Next.js 13, TypeScript y SQLite. La aplicación permite gestionar transacciones, categorizar gastos e ingresos, realizar seguimiento de inversiones en Bitcoin, y generar reportes financieros detallados.
-
-## ✨ Características Principales
-
-### 💰 Gestión de Transacciones
-
-- **Registro de ingresos y gastos** con categorización automática
-- **Soporte para pagos con tarjeta de crédito y débito**
-- **Adjuntar imágenes de comprobantes** a las transacciones
-- **Filtros avanzados** por fecha, categoría, tipo y monto
-- **Edición y eliminación** de transacciones existentes
-
-### 📊 Dashboard y Análisis
-
-- **Resumen financiero** con estadísticas en tiempo real
-- **Gráficos interactivos** para visualizar gastos por categoría
-- **Análisis de tendencias** mensuales y anuales
-- **Tarjetas de estadísticas** con ingresos, gastos y balance
-
-### 🏷️ Gestión de Categorías
-
-- **Categorías personalizables** con colores únicos
-- **Categorías predefinidas** para uso inmediato
-- **Edición y eliminación** de categorías existentes
-
-### ₿ Seguimiento de Bitcoin
-
-- **Registro de compras de Bitcoin** con precio y tasa de cambio
-- **Cálculo automático de ganancias/pérdidas** en tiempo real
-- **Integración con APIs de mercado** para precios actuales
-- **Resumen de inversión** con métricas detalladas
-
-### 📈 Reportes y Exportación
-
-- **Exportación a PDF** de transacciones y reportes
-- **Filtros personalizables** para reportes específicos
-- **Gráficos exportables** para presentaciones
-
-### 🔐 Autenticación
-
-- **Sistema de login** con credenciales seguras
-- **Protección de rutas** con middleware de autenticación
-- **Sesiones persistentes** para mejor experiencia de usuario
-
-## 🏗️ Arquitectura del Proyecto
-
-### Estructura de Directorios
-
-```
-Finance/
-├── app/                          # App Router de Next.js 13
-│   ├── api/                      # API Routes
-│   │   ├── auth/                 # Endpoints de autenticación
-│   │   ├── bitcoin-purchases/    # Gestión de compras de Bitcoin
-│   │   ├── categories/           # CRUD de categorías
-│   │   ├── stats/                # Estadísticas y métricas
-│   │   └── transactions/         # CRUD de transacciones
-│   ├── globals.css               # Estilos globales
-│   ├── invest/                   # Página de inversiones
-│   ├── login/                    # Página de login
-│   ├── transactions/             # Página de transacciones
-│   ├── layout.tsx                # Layout principal
-│   └── page.tsx                  # Página principal (Dashboard)
-├── components/                   # Componentes React
-│   ├── BitcoinTracker/           # Componentes de seguimiento Bitcoin
-│   ├── ui/                       # Componentes de UI (shadcn/ui)
-│   ├── widgets/                  # Widgets especializados
-│   └── [otros componentes]       # Componentes principales
-├── hooks/                        # Custom React Hooks
-├── layout/                       # Layouts especializados
-├── lib/                          # Utilidades y configuración
-├── types/                        # Definiciones de TypeScript
-└── data/                         # Base de datos SQLite
-```
-
-### Tecnologías Utilizadas
-
-#### Frontend
-
-- **Next.js 13** - Framework React con App Router
-- **TypeScript** - Tipado estático para mejor desarrollo
-- **Tailwind CSS** - Framework de estilos utilitarios
-- **shadcn/ui** - Componentes de UI modernos y accesibles
-- **Radix UI** - Primitivos de UI sin estilos
-- **React Hook Form** - Gestión de formularios
-- **Zod** - Validación de esquemas
-- **Recharts** - Gráficos y visualizaciones
-- **Lucide React** - Iconografía moderna
-
-#### Backend
-
-- **Next.js API Routes** - API REST integrada
-- **SQLite** - Base de datos ligera y portable
-- **better-sqlite3** - Driver de SQLite para Node.js
-- **jsPDF** - Generación de PDFs
-
-#### Herramientas de Desarrollo
-
-- **ESLint** - Linting de código
-- **PostCSS** - Procesamiento de CSS
-- **Autoprefixer** - Prefijos CSS automáticos
-
-## 🗄️ Base de Datos
-
-### Esquema de Tablas
-
-#### `users`
-
-```sql
-CREATE TABLE users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE NOT NULL,
-  password TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-#### `categories`
-
-```sql
-CREATE TABLE categories (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT UNIQUE NOT NULL,
-  color TEXT DEFAULT '#3B82F6',
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-#### `transactions`
-
-```sql
-CREATE TABLE transactions (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
-  amount REAL NOT NULL,
-  type TEXT NOT NULL CHECK (type IN ('income', 'expense')),
-  type_payment TEXT NOT NULL CHECK (type_payment IN ('credit', 'debit')) DEFAULT 'debit',
-  category_id INTEGER,
-  date DATE NOT NULL,
-  receipt_image TEXT,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (category_id) REFERENCES categories (id)
-);
-```
-
-#### `bitcoin_purchases`
-
-```sql
-CREATE TABLE bitcoin_purchases (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  purchase_time DATETIME NOT NULL,
-  invested_value REAL NOT NULL,
-  bitcoin_price REAL NOT NULL,
-  usd_cop_rate REAL NOT NULL DEFAULT 0
-);
-```
-
-## 🚀 Instalación y Configuración
+## 🚀 Instalación Rápida
 
 ### Prerrequisitos
 
-- Node.js 18+
-- npm o yarn
+- **Node.js 18+** (recomendado: versión LTS más reciente)
+- **npm** (incluido con Node.js)
 
 ### Pasos de Instalación
 
 1. **Clonar el repositorio**
 
    ```bash
-   git clone [URL_DEL_REPOSITORIO]
+   git clone <tu-repositorio>
    cd Finance
    ```
 
@@ -181,144 +24,121 @@ CREATE TABLE bitcoin_purchases (
    npm install
    ```
 
-3. **Configurar la base de datos**
+3. **Configurar el proyecto**
 
    ```bash
-   # La base de datos se creará automáticamente en data/finance.db
-   # Se insertarán categorías por defecto y usuario inicial
+   npm run setup
    ```
 
-4. **Ejecutar en modo desarrollo**
+4. **Iniciar el servidor de desarrollo**
 
    ```bash
    npm run dev
    ```
 
 5. **Abrir en el navegador**
+
    ```
    http://localhost:3000
    ```
 
-### Credenciales por Defecto
+6. **Iniciar sesión**
+   - Usuario: `Alejandro`
+   - Contraseña: `Aldany17!!`
 
-- **Usuario**: Alejandro
-- **Contraseña**: Aldany17!!
+## 📋 Características
 
-## 📱 Uso de la Aplicación
+### 🏠 Dashboard Principal
 
-### Dashboard Principal
+- Resumen financiero en tiempo real
+- Estadísticas de ingresos y gastos
+- Gráficos interactivos
+- Acciones rápidas
 
-El dashboard muestra un resumen completo de las finanzas personales:
+### 💰 Gestión de Transacciones
 
-- **Tarjetas de estadísticas** con ingresos, gastos y balance del mes
-- **Gráficos interactivos** de gastos por categoría
-- **Lista de transacciones recientes**
-- **Widgets de inversión en Bitcoin**
+- Agregar, editar y eliminar transacciones
+- Categorización automática
+- Filtros avanzados
+- Exportación de datos
 
-### Gestión de Transacciones
+### ₿ Bitcoin Tracker
 
-1. **Agregar transacción**: Click en "Nueva Transacción"
-2. **Editar**: Click en el ícono de edición en la lista
-3. **Eliminar**: Click en el ícono de eliminar (con confirmación)
-4. **Filtrar**: Usar el panel de filtros para buscar transacciones específicas
+- Seguimiento de inversiones en Bitcoin
+- Gráficos en tiempo real con TradingView
+- Cálculo de ganancias/pérdidas
+- Conversor de monedas
 
-### Seguimiento de Bitcoin
+### 🎨 Interfaz Moderna
 
-1. **Registrar compra**: Ir a la sección de inversiones
-2. **Ver resumen**: Dashboard muestra ganancias/pérdidas en tiempo real
-3. **Historial**: Lista completa de todas las compras realizadas
+- Diseño responsive
+- Tema claro/oscuro
+- Sidebar colapsible
+- Componentes reutilizables
 
-### Reportes
+## 🛠️ Comandos Disponibles
 
-1. **Exportar transacciones**: Click en "Exportar" en el dashboard
-2. **Filtrar antes de exportar**: Aplicar filtros para reportes específicos
-3. **Descargar PDF**: El reporte se genera automáticamente
+```bash
+# Desarrollo
+npm run dev          # Iniciar servidor de desarrollo
+npm run build        # Construir para producción
+npm run start        # Iniciar servidor de producción
+npm run lint         # Ejecutar linter
 
-## 🔧 Configuración Avanzada
+# Base de datos
+npm run db:init      # Inicializar base de datos
+npm run db:migrate   # Ejecutar migraciones
+
+# Setup
+npm run setup        # Configuración completa del proyecto
+```
+
+## 🗄️ Estructura de la Base de Datos
+
+### Tablas Principales
+
+- **users**: Usuarios del sistema
+- **categories**: Categorías de transacciones
+- **transactions**: Transacciones financieras
+- **bitcoin_purchases**: Compras de Bitcoin
+
+### Datos Iniciales
+
+- Usuario por defecto: `Alejandro`
+- 12 categorías predefinidas
+- Estructura de base de datos automática
+
+## 🔧 Configuración del Proyecto
 
 ### Variables de Entorno
 
-Crear archivo `.env.local`:
+Crea un archivo `.env.local` en la raíz del proyecto:
 
 ```env
-# Configuración de la base de datos
-DATABASE_URL=./data/finance.db
-
-# Configuración de APIs externas (opcional)
-BITCOIN_API_URL=https://api.coingecko.com/api/v3
+NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-### Personalización de Categorías
+### Estructura de Carpetas
 
-Las categorías por defecto incluyen:
-
-- Alimentación, Transporte, Entretenimiento
-- Salud, Educación, Hogar
-- Ropa, Tecnología, Salario
-- Inversiones, Freelance, Otros
-
-Pueden ser modificadas desde la interfaz de usuario.
-
-## 🧪 Scripts Disponibles
-
-```bash
-npm run dev          # Servidor de desarrollo
-npm run build        # Construir para producción
-npm run start        # Servidor de producción
-npm run lint         # Ejecutar ESLint
 ```
-
-## 📊 APIs Integradas
-
-### APIs de Bitcoin
-
-- **CoinGecko API**: Precios actuales de Bitcoin
-- **Tasas de cambio USD/COP**: Para cálculos de inversión
-
-### Endpoints Internos
-
-- `/api/transactions` - CRUD de transacciones
-- `/api/categories` - CRUD de categorías
-- `/api/bitcoin-purchases` - Gestión de compras Bitcoin
-- `/api/stats` - Estadísticas y métricas
-- `/api/auth/*` - Autenticación y sesiones
-
-## 🎨 Diseño y UI/UX
-
-### Sistema de Diseño
-
-- **Design System**: Basado en shadcn/ui
-- **Colores**: Paleta moderna con soporte para modo oscuro
-- **Tipografía**: Inter como fuente principal
-- **Iconografía**: Lucide React para consistencia
-
-### Responsive Design
-
-- **Mobile-first**: Optimizado para dispositivos móviles
-- **Breakpoints**: Adaptable a tablets y desktop
-- **Touch-friendly**: Interacciones optimizadas para touch
-
-## 🔒 Seguridad
-
-### Autenticación
-
-- **Middleware de protección**: Rutas protegidas automáticamente
-- **Sesiones seguras**: Manejo de sesiones con cookies
-- **Validación de entrada**: Todos los formularios validados con Zod
-
-### Base de Datos
-
-- **Prepared statements**: Prevención de SQL injection
-- **Validación de esquemas**: Tipos de datos estrictos
-- **Backup automático**: Base de datos en archivo local
+Finance/
+├── app/                 # Páginas de Next.js 13+
+├── components/          # Componentes React
+├── lib/                 # Utilidades y base de datos
+├── hooks/               # Custom hooks
+├── types/               # Definiciones TypeScript
+├── data/                # Base de datos SQLite
+├── diagrams/            # Diagramas del proyecto
+└── scripts/             # Scripts de setup
+```
 
 ## 🚀 Despliegue
 
 ### Vercel (Recomendado)
 
-1. Conectar repositorio a Vercel
-2. Configurar variables de entorno
-3. Desplegar automáticamente
+1. Conecta tu repositorio a Vercel
+2. Configura las variables de entorno
+3. Deploy automático en cada push
 
 ### Otros Proveedores
 
@@ -326,43 +146,77 @@ npm run lint         # Ejecutar ESLint
 - **Railway**: Soporte para SQLite
 - **Heroku**: Requiere configuración adicional
 
+## 🔒 Autenticación
+
+El sistema utiliza autenticación basada en cookies:
+
+- Middleware de protección de rutas
+- API endpoints para login/logout
+- Redirección automática
+
+## 📊 Tecnologías Utilizadas
+
+- **Frontend**: Next.js 13, React 18, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Base de Datos**: SQLite con better-sqlite3
+- **Gráficos**: Recharts, TradingView Widgets
+- **Autenticación**: Cookies + Middleware
+- **Temas**: next-themes
+
 ## 🤝 Contribución
 
-### Estructura de Commits
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## 🆘 Solución de Problemas
+
+### Error: "better-sqlite3" no se puede compilar
+
+```bash
+# En macOS
+brew install python
+
+# En Windows
+npm install --global windows-build-tools
+
+# En Linux
+sudo apt-get install python3 make g++
 ```
-feat: nueva característica
-fix: corrección de bug
-docs: documentación
-style: cambios de estilo
-refactor: refactorización de código
-test: pruebas
-chore: tareas de mantenimiento
+
+### Error: Base de datos no encontrada
+
+```bash
+npm run db:init
 ```
 
-### Guías de Desarrollo
+### Error: Migraciones fallidas
 
-1. **Fork del repositorio**
-2. **Crear rama feature**: `git checkout -b feature/nueva-funcionalidad`
-3. **Desarrollar cambios** siguiendo las convenciones
-4. **Ejecutar tests**: `npm run lint`
-5. **Crear Pull Request** con descripción detallada
+```bash
+npm run db:migrate
+```
 
-## 📄 Licencia
+### Error: Setup no completado
 
-Este proyecto está bajo la Licencia MIT. Ver archivo `LICENSE` para más detalles.
-
-## 👨‍💻 Autor
-
-**Alejandro** - Desarrollador Full Stack
+```bash
+npm run setup
+```
 
 ## 📞 Soporte
 
-Para soporte técnico o preguntas:
+Si encuentras algún problema:
 
-- Crear un issue en el repositorio
-- Contactar al desarrollador directamente
+1. Revisa la sección de solución de problemas
+2. Verifica que tienes Node.js 18+
+3. Ejecuta `npm run setup` nuevamente
+4. Abre un issue en el repositorio
 
 ---
 
-**Finance** - Tu compañero financiero personal 🚀
+**¡Disfruta gestionando tus finanzas de manera inteligente! 💰✨**

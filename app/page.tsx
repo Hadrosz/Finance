@@ -187,20 +187,17 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-8 space-y-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="flex justify-between items-center mb-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              Dashboard
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-1">
+            <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+            <p className="text-muted-foreground">
               Resumen de tus finanzas personales
             </p>
           </div>
-          <div className="flex space-x-3">
+          <div className="flex space-x-2">
             <Button
-              className="bg-blue-600 hover:bg-blue-700"
               onClick={() => {
                 setShowForm(true);
                 setEditingTransaction(null);
@@ -211,6 +208,7 @@ export default function DashboardPage() {
             </Button>
           </div>
         </div>
+
         {/* Stats Cards */}
         <InvestmentStats
           totalIncome={totalIncome}
@@ -219,6 +217,7 @@ export default function DashboardPage() {
           bitcoinGainLoss={bitcoinGainLoss}
           bitcoinGainLossPercentage={bitcoinGainLossPercentage}
         />
+
         {/* Filtros y Exportar transacciones recientes */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Acciones rápidas */}
@@ -229,7 +228,7 @@ export default function DashboardPage() {
             onDeletePurchase={handleDeletePurchase}
           />
           {/* Transacciones recientes */}
-          <Card className=" border-0 shadow-md">
+          <Card className="border-0 shadow-md">
             <CardHeader>
               <CardTitle className="text-lg font-semibold">
                 Transacciones Recientes
@@ -257,6 +256,7 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
+
         <div className="grid grid-cols-3">
           <Card className="border-0 shadow-md">
             <CardHeader>
@@ -289,7 +289,7 @@ export default function DashboardPage() {
                 </Button>
               </Link>
             </CardContent>
-          </Card>{" "}
+          </Card>
         </div>
       </div>
 

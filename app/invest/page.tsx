@@ -80,7 +80,7 @@ export default function Home() {
 
   if (purchasesLoading || loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br  flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <Bitcoin className="h-12 w-12 text-orange-500 animate-pulse mx-auto mb-4" />
           <p className="text-lg text-muted-foreground">Cargando dashboard...</p>
@@ -90,19 +90,20 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br ">
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
-            <Bitcoin className="h-10 w-10 text-orange-500" />
-            Bitcoin Investment Tracker
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Rastrea y analiza tus inversiones en Bitcoin en tiempo real
-          </p>
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto p-6">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight flex items-center gap-3">
+              Bitcoin Investment Tracker
+            </h2>
+            <p className="text-muted-foreground">
+              Rastrea y analiza tus inversiones en Bitcoin en tiempo real
+            </p>
+          </div>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {/* Market Data Widgets */}
           <div className="space-y-6">
             <PriceWidget
@@ -122,10 +123,10 @@ export default function Home() {
           {/* Investment Summary */}
           {purchases.length > 0 && (
             <div>
-              <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+              <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
                 <TrendingUp className="h-6 w-6 text-green-600" />
                 Resumen de Inversión
-              </h2>
+              </h3>
               <InvestmentSummaryComponent
                 purchases={purchases}
                 currentBitcoinPrice={marketData.bitcoinPriceUSD}
@@ -165,10 +166,10 @@ export default function Home() {
 
             <TabsContent value="list" className="space-y-6">
               <div>
-                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
                   <List className="h-6 w-6 text-blue-600" />
                   Historial de Compras
-                </h2>
+                </h3>
                 <PurchasesList
                   purchases={purchases}
                   currentBitcoinPrice={marketData.bitcoinPriceUSD}
@@ -180,20 +181,20 @@ export default function Home() {
 
             <TabsContent value="chart" className="space-y-6">
               <div>
-                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
                   <Activity className="h-6 w-6 text-orange-600" />
                   Análisis Técnico de Bitcoin
-                </h2>
+                </h3>
                 <TradingViewChart height={500} />
               </div>
             </TabsContent>
 
             <TabsContent value="market" className="space-y-6">
               <div>
-                <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
+                <h3 className="text-2xl font-semibold mb-4 flex items-center gap-2">
                   <BarChart3 className="h-6 w-6 text-purple-600" />
                   Resumen del Mercado Financiero
-                </h2>
+                </h3>
                 <MarketOverview height={450} />
               </div>
             </TabsContent>

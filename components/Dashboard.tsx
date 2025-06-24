@@ -124,20 +124,19 @@ export function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto p-6">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+            <h2 className="text-3xl font-bold tracking-tight">Transacciones</h2>
             <p className="text-muted-foreground">
-              ¡Hola Alejandro! Aquí tienes tu resumen financiero.
+              Gestiona y analiza todas tus transacciones financieras
             </p>
           </div>
           <div className="flex space-x-2">
             <FilterPanel onFiltersChange={setFilters} categories={categories} />
             <ExportButton transactions={transactions} />
             <Button
-              className="bg-blue-600 hover:bg-blue-700"
               onClick={() => {
                 setShowForm(true);
                 setEditingTransaction(null);
