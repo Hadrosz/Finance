@@ -5,15 +5,6 @@ const dbPath = path.join(process.cwd(), "data", "finance.db");
 const db = new Database(dbPath);
 
 // Create tables if they don't exist
-// Add usd_cop_rate to bitcoin_purchases if missing
-const tableInfo = db.prepare("PRAGMA table_info(bitcoin_purchases)").all();
-const hasUsdCopRate = tableInfo.some((col: any) => col.name === "usd_cop_rate");
-if (!hasUsdCopRate) {
-  db.prepare(
-    "ALTER TABLE bitcoin_purchases ADD COLUMN usd_cop_rate REAL NOT NULL DEFAULT 0"
-  ).run();
-}
-
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,6 +41,15 @@ db.exec(`
     usd_cop_rate REAL NOT NULL DEFAULT 0
   );
 `);
+
+// Add usd_cop_rate to bitcoin_purchases if missing
+const tableInfo = db.prepare("PRAGMA table_info(bitcoin_purchases)").all();
+const hasUsdCopRate = tableInfo.some((col: any) => col.name === "usd_cop_rate");
+if (!hasUsdCopRate) {
+  db.prepare(
+    "ALTER TABLE bitcoin_purchases ADD COLUMN usd_cop_rate REAL NOT NULL DEFAULT 0"
+  ).run();
+}
 
 // Insert default user and categories
 const insertUser = db.prepare(
