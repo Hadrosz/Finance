@@ -1,3 +1,4 @@
+import { addUser } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -14,7 +15,6 @@ function validateUser(username: string, password: string) {
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json();
-    console.log(username);
 
     if (!username || !password) {
       return NextResponse.json(
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = validateUser(username, password);
+    const user = addUser(username, password);
 
     if (!user) {
       return NextResponse.json(
@@ -31,16 +31,16 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-
+    console.log(user);
     return NextResponse.json(
       {
-        message: "Login exitoso",
+        message: "Registro exitoso",
         user: { id: user.id, username: user.username },
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Registro error:", error);
     return NextResponse.json(
       { message: "Error interno del servidor" },
       { status: 500 }

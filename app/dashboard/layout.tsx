@@ -1,12 +1,10 @@
-import "./globals.css";
+import "@/app/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClientLayout } from "@/components/ClientLayout";
+import DashboardLayout from "@/layout/dashboard-layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,15 +20,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={GeistSans.className}>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
-          <Toaster />
+          <DashboardLayout>{children}</DashboardLayout> <Toaster />
         </ThemeProvider>
       </body>
     </html>

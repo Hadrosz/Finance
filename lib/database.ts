@@ -9,6 +9,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT UNIQUE NOT NULL,
+    email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
@@ -52,10 +53,9 @@ if (!hasUsdCopRate) {
 }
 
 // Insert default user and categories
-const insertUser = db.prepare(
+export const insertUser = db.prepare(
   "INSERT OR IGNORE INTO users (username, password) VALUES (?, ?)"
 );
-insertUser.run("Alejandro", "Aldany17!!");
 
 const insertCategory = db.prepare(
   "INSERT OR IGNORE INTO categories (name, color) VALUES (?, ?)"

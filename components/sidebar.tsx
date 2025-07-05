@@ -35,8 +35,27 @@ export default function Sidebar({ className }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const handleLogout = () => {
-    router.push("/login");
+  const handleLogout = async () => {
+    try {
+      // Call logout API to clear the cookie
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // Clear the cookie on the client side as well
+      document.cookie =
+        "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+
+      // Redirect to login page
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+      // Even if there's an error, try to redirect to login
+      router.push("/auth/login");
+    }
   };
 
   const closeMobile = () => setIsMobileOpen(false);

@@ -1,4 +1,4 @@
-import { db } from "./database";
+import { db, insertUser } from "./database";
 import type { User } from "./database";
 
 export function validateUser(username: string, password: string): User | null {
@@ -8,6 +8,10 @@ export function validateUser(username: string, password: string): User | null {
   return user || null;
 }
 
+export function addUser(username: string, password: string): any {
+  const info = insertUser.run(username, password);
+  return info;
+}
 export function getUser(username: string): User | null {
   const user = db
     .prepare("SELECT * FROM users WHERE username = ?")

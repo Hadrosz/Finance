@@ -31,9 +31,9 @@ import {
 } from "lucide-react";
 
 const navigation = [
-  { name: "Dashboard", href: "/", icon: LayoutDashboard },
-  { name: "Transacciones", href: "/transactions", icon: CreditCard },
-  { name: "Bitcoin", href: "/invest", icon: Bitcoin },
+  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Transacciones", href: "/dashboard/transactions", icon: CreditCard },
+  { name: "Bitcoin", href: "/dashboard/invest", icon: Bitcoin },
 ];
 
 interface MainSidebarProps {
@@ -59,11 +59,11 @@ export function MainSidebar({ children }: MainSidebarProps) {
         "auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
       // Redirect to login page
-      router.push("/login");
+      router.push("/auth/login");
     } catch (error) {
       console.error("Error during logout:", error);
       // Even if there's an error, try to redirect to login
-      router.push("/login");
+      router.push("/auth/login");
     }
   };
 
